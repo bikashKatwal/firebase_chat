@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
+  final Function(String email, String password, BuildContext ctx)
+      submitFormForLogin;
+  final Function(
+          String email, String userName, String password, BuildContext ctx)
+      submitFormForCreateNewUser;
+
+  const AuthForm(
+      {Key key, this.submitFormForLogin, this.submitFormForCreateNewUser})
+      : super(key: key);
+
   @override
   _AuthFormState createState() => _AuthFormState();
 }
@@ -14,14 +24,23 @@ class _AuthFormState extends State<AuthForm> {
   var _userUserName = '';
   var _userPassword = '';
 
-  void _trySubmit() {
+  void _trySubmitToLogin() {
     final isValid = _formKey.currentState.validate();
     FocusScope.of(context).unfocus();
     if (isValid) {
       _formKey.currentState.save();
-      print(_userEmailAddress);
-      print(_userUserName);
-      print(_userPassword);
+      widget.submitFormForCreateNewUser(
+          _userEmailAddress, _userUserName, _userPassword, context);
+    }
+  }
+
+  void _trySubmitToCreateNewAccount() {
+    final isValid = _formKey.currentState.validate();
+    FocusScope.of(context).unfocus();
+    if (isValid) {
+      _formKey.currentState.save();
+      widget.submitFormForCreateNewUser(
+          _userEmailAddress, _userUserName, _userPassword, context);
     }
   }
 
@@ -41,9 +60,11 @@ class _AuthFormState extends State<AuthForm> {
                     TextFormField(
                       key: ValueKey('email'),
                       validator: (value) {
-                        if (value.isEmpty || !value.contains('@'))
-                          return 'Please enter a valid email address';
-                        return null;
+                        return RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value)
+                            ? null
+                            : "Please Enter Correct Email";
                       },
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(labelText: 'Email address'),
@@ -56,9 +77,9 @@ class _AuthFormState extends State<AuthForm> {
                         key: ValueKey('username'),
                         decoration: InputDecoration(labelText: 'Username'),
                         validator: (value) {
-                          if (value.isEmpty || value.length < 5)
-                            return 'Please enter atleast 4 character';
-                          return null;
+                          return (value.isEmpty || value.length < 5)
+                              ? 'Please enter atleast 4 character'
+                              : null;
                         },
                         onSaved: (newValue) {
                           _userUserName = newValue;
@@ -69,9 +90,9 @@ class _AuthFormState extends State<AuthForm> {
                       obscureText: true,
                       decoration: InputDecoration(labelText: 'Password'),
                       validator: (value) {
-                        if (value.isEmpty || value.length < 5)
-                          return 'Please enter a valid email address';
-                        return null;
+                        return (value.isEmpty || value.length < 6)
+                            ? 'Please enter password more than 6 character'
+                            : null;
                       },
                       onSaved: (newValue) {
                         _userPassword = newValue;
@@ -82,7 +103,9 @@ class _AuthFormState extends State<AuthForm> {
                     ),
                     RaisedButton(
                         child: Text(_isLogin ? 'Login' : 'Signup'),
-                        onPressed: _trySubmit),
+                        onPressed: _isLogin
+                            ? _trySubmitToLogin
+                            : _trySubmitToCreateNewAccount),
                     FlatButton(
                         onPressed: () {
                           setState(() {
