@@ -32,6 +32,7 @@ dependencies:
   cloud_firestore: ^0.13.6
   firebase_auth: ^0.16.0
   image_picker: ^0.6.7+6
+  blurhash: ^0.2.0
 
 dev_dependencies:
   flutter_test:
