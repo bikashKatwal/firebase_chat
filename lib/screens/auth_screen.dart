@@ -23,8 +23,8 @@ class _AuthScreenState extends State<AuthScreen> {
     });
     try {
       var result = await _authService.submitAuthFormForLogin(email, password);
-      showSnackBar(globalScaffoldKey,
-          Text('${result.user.email} is logged in'), Colors.black);
+      showSnackBar(globalScaffoldKey, Text('${result.user.email} is logged in'),
+          Colors.black);
     } on PlatformException catch (e) {
       var message = 'Could not log in';
       message = (e.message != null) ? e.message : message;
