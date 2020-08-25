@@ -1,4 +1,3 @@
-import 'package:chat_app/resources/app_config.dart';
 import 'package:chat_app/screens/chat_screen.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:firebase_auth/firebase_auth.dart';
