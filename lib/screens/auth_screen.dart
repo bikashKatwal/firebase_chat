@@ -1,6 +1,6 @@
 import 'package:chat_app/services/auth_service.dart';
-import 'package:chat_app/widgets/auth_form.dart';
-import 'package:chat_app/widgets/common_ui.dart';
+import 'file:///D:/udemy/chat_app/lib/widgets/auth/auth_form.dart';
+import 'file:///D:/udemy/chat_app/lib/widgets/common/common_ui.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
