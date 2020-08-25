@@ -2,6 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 
 class AuthService {
+  AuthService._internal();
+  static final AuthService _instance = AuthService._internal();
+  static AuthService get instance => _instance;
+
   final _auth = FirebaseAuth.instance;
 
   Future submitAuthFormForLogin(String email, String password) async {

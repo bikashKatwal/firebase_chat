@@ -31,8 +31,7 @@ class ChatScreen extends StatelessWidget {
             ],
             onChanged: (value) {
               if (value == 'logout') {
-                AuthService _authService = AuthService();
-                _authService.signOut();
+                AuthService.instance.signOut();
               }
             },
           )

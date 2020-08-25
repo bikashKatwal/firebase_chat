@@ -11,7 +11,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
-  AuthService _authService = AuthService();
+//  AuthService _authService = AuthService();
   final globalScaffoldKey = GlobalKey<ScaffoldState>();
   bool isLoading = false;
 
@@ -22,7 +22,7 @@ class _AuthScreenState extends State<AuthScreen> {
       isLoading = true;
     });
     try {
-      await _authService.submitAuthFormForLogin(email, password);
+      await AuthService.instance.submitAuthFormForLogin(email, password);
     } on PlatformException catch (e) {
       var message = 'Could not log in';
       message = (e.message != null) ? e.message : message;
@@ -44,7 +44,7 @@ class _AuthScreenState extends State<AuthScreen> {
       isLoading = true;
     });
     try {
-      var result = await _authService.submitAuthFormForSignup(
+      var result = await AuthService.instance.submitAuthFormForSignup(
           email: email, userName: userName, password: password);
       setState(() {
         isLoading = false;
