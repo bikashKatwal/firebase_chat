@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
+  final bool isLoading;
   final Function(String email, String password, BuildContext ctx)
       submitFormForLogin;
   final Function(
@@ -8,7 +9,10 @@ class AuthForm extends StatefulWidget {
       submitFormForCreateNewUser;
 
   const AuthForm(
-      {Key key, this.submitFormForLogin, this.submitFormForCreateNewUser})
+      {Key key,
+      this.submitFormForLogin,
+      this.submitFormForCreateNewUser,
+      this.isLoading})
       : super(key: key);
 
   @override
@@ -29,8 +33,7 @@ class _AuthFormState extends State<AuthForm> {
     FocusScope.of(context).unfocus();
     if (isValid) {
       _formKey.currentState.save();
-      widget.submitFormForCreateNewUser(
-          _userEmailAddress, _userUserName, _userPassword, context);
+      widget.submitFormForLogin(_userEmailAddress, _userPassword, context);
     }
   }
 
@@ -39,8 +42,8 @@ class _AuthFormState extends State<AuthForm> {
     FocusScope.of(context).unfocus();
     if (isValid) {
       _formKey.currentState.save();
-      widget.submitFormForCreateNewUser(
-          _userEmailAddress, _userUserName, _userPassword, context);
+      widget.submitFormForCreateNewUser(_userEmailAddress.trim(),
+          _userUserName.trim(), _userPassword.trim(), context);
     }
   }
 
@@ -101,11 +104,21 @@ class _AuthFormState extends State<AuthForm> {
                     SizedBox(
                       height: 12,
                     ),
-                    RaisedButton(
-                        child: Text(_isLogin ? 'Login' : 'Signup'),
-                        onPressed: _isLogin
-                            ? _trySubmitToLogin
-                            : _trySubmitToCreateNewAccount),
+                    widget.isLoading
+                        ? Center(
+                            child: Container(
+                              width: 24.0,
+                              height: 24.0,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          )
+                        : RaisedButton(
+                            child: Text(_isLogin ? 'Login' : 'Signup'),
+                            onPressed: _isLogin
+                                ? _trySubmitToLogin
+                                : _trySubmitToCreateNewAccount),
                     FlatButton(
                         onPressed: () {
                           setState(() {
