@@ -23,12 +23,12 @@ class _AuthScreenState extends State<AuthScreen> {
     });
     try {
       var result = await _authService.submitAuthFormForLogin(email, password);
-      await showSnackBar(globalScaffoldKey,
+      showSnackBar(globalScaffoldKey,
           Text('${result.user.email} is logged in'), Colors.black);
     } on PlatformException catch (e) {
       var message = 'Could not log in';
       message = (e.message != null) ? e.message : message;
-      await showSnackBar(
+      showSnackBar(
           globalScaffoldKey, Text(message), Theme.of(context).errorColor);
     } catch (e) {
       print("Login in Issue:" + e.toString());
@@ -62,7 +62,7 @@ class _AuthScreenState extends State<AuthScreen> {
     } on PlatformException catch (e) {
       var message = 'Oops!Something went wrong while creating the user';
       message = (e.message != null) ? e.message : message;
-      await showSnackBar(
+      showSnackBar(
           globalScaffoldKey, Text(message), Theme.of(context).errorColor);
       setState(() {
         isLoading = false;
