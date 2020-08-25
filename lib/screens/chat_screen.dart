@@ -1,7 +1,7 @@
 import 'package:chat_app/services/auth_service.dart';
 import 'package:chat_app/widgets/chat/messages.dart';
 import 'package:chat_app/widgets/chat/new_message.dart';
-import 'file:///D:/udemy/chat_app/lib/widgets/common/custom_appbar.dart';
+import 'package:chat_app/widgets/common/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatelessWidget {
